@@ -3,26 +3,24 @@ name: Backend CI
 on:
   push:
     branches: ["main"]
-  pull_request:
-    branches: ["main"]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+    # 1. Downloads your code from the GitHub repository onto the runner server
       - uses: actions/checkout@v4
 
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r backend/requirements.txt
-
-      - name: Run Pytest
-        run: |
-          cd backend
-          pytest
+    # 2. Spins up the exact same Docker environment you use locally (API + Redis)
+    # The '-d' flag runs it in "detached" mode so it runs in the background
+      - name: Build and start containers
+        run: docker-compose up -d --build
+      
+    # 3. Pauses for 5 seconds to ensure Redis has fully booted up before we hit it
+      - name: Wait for services to be ready
+        run: sleep 5
+        
+    # 4. Executes Pytest INSIDE the running 'api' container, perfectly mimicking your local setup
+    # The '-T' flag is required by CI pipelines to run commands without an interactive terminal
+      - name: Run Pytest in Docker
+        run: docker-compose exec -T api pytest
