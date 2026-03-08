@@ -14,13 +14,17 @@ jobs:
     # 2. Spins up the exact same Docker environment you use locally (API + Redis)
     # The '-d' flag runs it in "detached" mode so it runs in the background
       - name: Build and start containers
-        run: docker-compose up -d --build
+        run: docker compose up -d --build
       
     # 3. Pauses for 5 seconds to ensure Redis has fully booted up before we hit it
       - name: Wait for services to be ready
         run: sleep 5
+
+    # 4. NEW: A debugging step that prints out the status of our containers
+      - name: Check running containers
+        run: docker compose ps
         
-    # 4. Executes Pytest INSIDE the running 'api' container, perfectly mimicking your local setup
+    # 5. Executes Pytest INSIDE the running 'api' container, perfectly mimicking your local setup
     # The '-T' flag is required by CI pipelines to run commands without an interactive terminal
       - name: Run Pytest in Docker
         run: docker-compose exec -T api pytest
