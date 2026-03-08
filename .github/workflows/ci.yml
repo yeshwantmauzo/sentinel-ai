@@ -27,4 +27,4 @@ jobs:
     # 5. Executes Pytest INSIDE the running 'api' container, perfectly mimicking your local setup
     # The '-T' flag is required by CI pipelines to run commands without an interactive terminal
       - name: Run Pytest in Docker
-        run: docker-compose exec -T api pytest
+        run: docker compose exec -T api pytest
