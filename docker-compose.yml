@@ -14,6 +14,9 @@ services:
     # Tells Python to print logs to the console immediately
     environment:
       - PYTHONUNBUFFERED=1
+    # Securely injects the Gemini API key into the API container as well
+    env_file:
+      - ./backend/.env
 
   # Our newly created background worker service
   worker:
@@ -28,6 +31,9 @@ services:
     # Tells Python to print logs to the console immediately
     environment:
       - PYTHONUNBUFFERED=1
+    # This injects our secret API keys securely into the worker container
+    env_file:
+      - ./backend/.env
 
   redis:
     # Uses the official, lightweight Alpine Linux version of Redis

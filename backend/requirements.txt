@@ -8,3 +8,13 @@ redis==5.0.3
 rq==1.16.1
 # Library to connect to the MongoDB database
 pymongo==4.6.2
+# LangChain is the framework we use to build the RAG pipeline
+langchain==0.1.13
+# Connects LangChain specifically to Google's Gemini models
+langchain-google-genai==1.0.1
+# Contains extra LangChain tools for reading documents and vector spaces
+langchain-community==0.0.29
+# FAISS is a blazing-fast, local vector database developed by Meta to store our document chunks
+faiss-cpu==1.8.0
+# python-dotenv allows our code to safely read hidden passwords from a .env file
+python-dotenv==1.0.1

@@ -1,0 +1,7 @@
+SENTINEL AI - FRAUD COMPLIANCE AND PCI DSS RULEBOOK
+
+Rule 1 (Velocity): Any user initiating more than 3 transactions within a 1-minute window should be flagged for review.
+Rule 2 (High Value): Transactions exceeding $8,000.00 require strict manual verification and should be assigned a high fraud score.
+Rule 3 (Micro-Transactions): Consecutive transactions under $10.00 are indicative of card-testing behavior and should be flagged.
+Rule 4 (Time Anomalies): Transactions occurring between 02:00 AM and 04:00 AM UTC from accounts less than 30 days old have an elevated risk profile.
+Rule 5 (Baseline): If a transaction does not violate any of the above parameters, it is considered safe and should be approved.
