@@ -2,3 +2,7 @@ fastapi==0.110.0
 uvicorn==0.29.0
 pytest==8.1.1
 httpx==0.27.0
+# Library to connect to the Redis database
+redis==5.0.3
+# RQ (Redis Queue) is a simple Python library for queueing jobs
+rq==1.16.1
