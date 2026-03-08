@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from redis import Redis
 from rq import Queue
 import os
+from database import transactions_collection
 
 app = FastAPI(title="Sentinel AI API")
 
@@ -20,10 +21,22 @@ class Transaction(BaseModel):
     amount: float
     timestamp: str
 
-# A placeholder function that our background worker will eventually execute
+# Our background worker function
 def analyze_fraud(transaction_data: dict):
-    print(f"Analyzing transaction: {transaction_data['transaction_id']}")
-    # Later, this is where the RAG/Gemini logic will go!
+    # 1. Print to the console so we know the worker picked it up
+    print(f"Worker analyzing transaction: {transaction_data['transaction_id']}")
+    
+    # 2. Simulate our future AI giving the transaction a clean bill of health
+    # We inject new data points directly into the dictionary
+    transaction_data["status"] = "approved"
+    transaction_data["fraud_score"] = 0.01 
+    
+    # 3. Permanently save the updated dictionary into the MongoDB vault
+    # PyMongo automatically converts the Python dictionary into a BSON document
+    transactions_collection.insert_one(transaction_data)
+    
+    # 4. Print a confirmation
+    print(f"Saved to Vault: {transaction_data['transaction_id']}")
     return True
 
 @app.get("/health")

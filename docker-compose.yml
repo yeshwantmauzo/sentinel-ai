@@ -10,6 +10,10 @@ services:
     # Tells Docker to start Redis before starting the API
     depends_on:
       - redis
+      - mongodb
+    # Tells Python to print logs to the console immediately
+    environment:
+      - PYTHONUNBUFFERED=1
 
   # Our newly created background worker service
   worker:
@@ -20,6 +24,10 @@ services:
       - ./backend:/app
     depends_on:
       - redis
+      - mongodb
+    # Tells Python to print logs to the console immediately
+    environment:
+      - PYTHONUNBUFFERED=1
 
   redis:
     # Uses the official, lightweight Alpine Linux version of Redis
@@ -27,3 +35,14 @@ services:
     ports:
       # Exposes the default Redis port so our apps can connect to it
       - "6379:6379"
+
+  mongodb:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"              # Exposes the default MongoDB port to your local machine
+    volumes:
+      - mongo_data:/data/db        # Mounts a persistent volume so data survives a restart
+
+# Defines the persistent hard drive space for MongoDB
+volumes:
+  mongo_data:
