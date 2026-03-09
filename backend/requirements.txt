@@ -18,3 +18,4 @@ langchain-community==0.0.29
 faiss-cpu==1.8.0
 # python-dotenv allows our code to safely read hidden passwords from a .env file
 python-dotenv==1.0.1
+websockets
